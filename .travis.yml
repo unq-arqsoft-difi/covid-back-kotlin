@@ -6,7 +6,7 @@ before_script: ./gradlew ktlint
 
 script: ./gradlew build
 
-# after_success: mvn clean test jacoco:report coveralls:report
+after_success: ./gradlew jacocoTestReport coveralls
 
 notifications:
   email:
