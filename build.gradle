@@ -59,16 +59,15 @@ task ktlintFormat(type: JavaExec, group: "formatting") {
     args "-F", "src/**/*.kt"
 }
 
-jacoco {
-    toolVersion = "0.8.5"
-    reportsDir = file("$buildDir/customJacocoReportDir")
-}
-
 jacocoTestReport {
     reports {
-        xml.enabled = true // coveralls plugin depends on xml format report
-        html.enabled = true
+        xml.enabled true
+        html.enabled true
     }
+}
+
+coveralls {
+    sourceDirs += ['src/main/kotlin']
 }
 
 compileKotlin {
