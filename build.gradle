@@ -8,6 +8,10 @@ plugins {
     id 'org.jetbrains.kotlin.jvm' version '1.3.72'
 }
 
+configurations {
+    ktlint
+}
+
 group 'com.github.unq-arqsoft-difi'
 version '1.0.0-rc1'
 
@@ -28,12 +32,32 @@ dependencies {
     testImplementation "org.spekframework.spek2:spek-dsl-jvm:$spek_version"
     testRuntimeOnly "org.spekframework.spek2:spek-runner-junit5:$spek_version"
     testRuntimeOnly "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version" // spek requires kotlin-reflect
+
+    ktlint "com.pinterest:ktlint:0.35.0"
 }
 
 test {
     useJUnitPlatform {
         includeEngines 'spek2'
     }
+}
+
+task ktlint(type: JavaExec, group: "verification") {
+    description = "Check Kotlin code style."
+    main = "com.pinterest.ktlint.Main"
+    classpath = configurations.ktlint
+    args "src/**/*.kt"
+    // to generate report in checkstyle format prepend following args:
+    // "--reporter=plain", "--reporter=checkstyle,output=${buildDir}/ktlint.xml"
+    // see https://github.com/pinterest/ktlint#usage for more
+}
+check.dependsOn ktlint
+
+task ktlintFormat(type: JavaExec, group: "formatting") {
+    description = "Fix Kotlin code style deviations."
+    main = "com.pinterest.ktlint.Main"
+    classpath = configurations.ktlint
+    args "-F", "src/**/*.kt"
 }
 
 compileKotlin {
