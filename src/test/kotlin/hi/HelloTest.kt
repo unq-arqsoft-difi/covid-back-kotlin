@@ -9,7 +9,7 @@ object HelloSpec : Spek({
 
     describe("Testing test") {
         it("say hi") {
-            assertEquals("hello theresaa", hello.hi())
+            assertEquals("hello there", hello.hi())
         }
     }
 })
