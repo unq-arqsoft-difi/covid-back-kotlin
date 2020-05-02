@@ -25,6 +25,7 @@ repositories {
 dependencies {
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    implementation 'io.javalin:javalin:3.8.0'
 
     // Junit Jupiter
     testImplementation "org.junit.jupiter:junit-jupiter-api:$junit_version"
