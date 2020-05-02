@@ -1,8 +1,8 @@
 package difi.covid.api
 
-import io.javalin.Javalin
 import io.javalin.apibuilder.ApiBuilder.*
 import io.javalin.core.util.RouteOverviewPlugin
+import io.javalin.Javalin
 
 class CovidAPI(private val port: Int) {
 
@@ -20,10 +20,10 @@ class CovidAPI(private val port: Int) {
 
         app.routes {
             path("registry") {
-                post(userController::registry)  // POST /registry
+                post(userController::registry)
             }
             path("login") {
-                post(userController::login)     // POST /login
+                post(userController::login)
             }
         }
 
