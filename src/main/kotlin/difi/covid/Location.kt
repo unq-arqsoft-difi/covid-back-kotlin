@@ -1,3 +1,3 @@
 package difi.covid
 
-class Location
+data class Location(val name: String, val province: String?)
