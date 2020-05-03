@@ -1,5 +1,3 @@
 package difi.covid
 
-class Location {
-
-}
+class Location

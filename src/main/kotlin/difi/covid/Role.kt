@@ -1,4 +1,3 @@
 package difi.covid
 
-class Role {
-}
+class Role
