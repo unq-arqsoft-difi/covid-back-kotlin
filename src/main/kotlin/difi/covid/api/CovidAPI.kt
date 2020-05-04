@@ -1,13 +1,14 @@
 package difi.covid.api
 
+import difi.covid.CovidApp
 import io.javalin.apibuilder.ApiBuilder.*
 import io.javalin.core.util.RouteOverviewPlugin
 import io.javalin.Javalin
 
 class CovidAPI(private val port: Int) {
 
-    fun init(): Javalin {
-        val app = Javalin.create {
+    fun startWith(app: CovidApp): Javalin {
+        val api = Javalin.create {
             it.enableCorsForAllOrigins()
             it.registerPlugin(RouteOverviewPlugin("/routes"))
         }.exception(Exception::class.java) { e, ctx ->
@@ -16,17 +17,24 @@ class CovidAPI(private val port: Int) {
             ctx.json("Error fatal")
         }.start(port)
 
-        val userController = UserController()
+        val userController = UserController(app)
+        val locationController = LocationController(app)
 
-        app.routes {
+        api.routes {
+            path("users") {
+                get(userController::getAll)
+            }
             path("registry") {
                 post(userController::registry)
             }
             path("login") {
                 post(userController::login)
             }
+            path("locations") {
+                get(locationController::getAll)
+            }
         }
 
-        return app
+        return api
     }
 }
