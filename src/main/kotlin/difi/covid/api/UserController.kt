@@ -1,8 +1,19 @@
 package difi.covid.api
 
+import difi.covid.CovidApp
+import difi.covid.api.parsers.BasicUserParser
+import difi.covid.api.parsers.RegistryCreationUserParser
+import difi.covid.api.parsers.RegistryUserParser
+import difi.covid.exceptions.ExistsUserException
 import io.javalin.http.Context
 
-class UserController {
+class UserController(private val app: CovidApp) {
+
+    fun getAll(ctx: Context) {
+        val users = app.users.map { BasicUserParser(it) }
+        ctx.status(200)
+        ctx.json(users)
+    }
 
     /**
      * User Registry
@@ -12,8 +23,31 @@ class UserController {
      *   - 400 & { "created": false, "errors": [ ... ] }
      */
     fun registry(ctx: Context) {
-        ctx.status(201)
-        ctx.json(mapOf("created" to true))
+        try {
+            val parsedUser = ctx.bodyValidator<RegistryUserParser>()
+                .check({ nonEmptyFields(it) }, "Invalid json body (FIXME better message)")
+                .get()
+            app.addUser(parsedUser.asUser())
+            ctx.status(201)
+            ctx.json(RegistryCreationUserParser(created = true))
+        } catch (ex: ExistsUserException) {
+            ctx.status(400)
+            ctx.json(RegistryCreationUserParser(
+                created = false,
+                errors = listOf(ex.message!!)
+            ))
+        }
+    }
+
+    private fun nonEmptyFields(userParser: RegistryUserParser): Boolean {
+        return userParser.firstName != null &&
+            userParser.lastName != null &&
+            userParser.email != null &&
+            userParser.phoneNumber != null &&
+            userParser.institution != null &&
+            userParser.role != null &&
+            userParser.location != null &&
+            userParser.password != null
     }
 
     /**

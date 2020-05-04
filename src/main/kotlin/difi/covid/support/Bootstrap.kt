@@ -3,7 +3,6 @@ package difi.covid.support
 import com.fasterxml.jackson.module.kotlin.*
 import difi.covid.CovidApp
 import difi.covid.Location
-import java.io.File
 import java.net.URL
 
 fun parseTowns(): JsonTownListParser {

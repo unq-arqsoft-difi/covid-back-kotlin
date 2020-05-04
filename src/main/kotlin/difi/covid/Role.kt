@@ -1,3 +1,3 @@
 package difi.covid
 
-class Role
+class Role(val name: String?)

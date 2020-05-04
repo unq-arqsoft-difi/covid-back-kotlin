@@ -17,10 +17,13 @@ class CovidAPI(private val port: Int) {
             ctx.json("Error fatal")
         }.start(port)
 
-        val userController = UserController()
+        val userController = UserController(app)
         val locationController = LocationController(app)
 
         api.routes {
+            path("users") {
+                get(userController::getAll)
+            }
             path("registry") {
                 post(userController::registry)
             }

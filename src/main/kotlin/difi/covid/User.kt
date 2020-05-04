@@ -8,4 +8,6 @@ data class User(
     val institution: Institution,
     val role: Role,
     val location: Location
-)
+) {
+    fun fullName(): String = "$firstName $lastName"
+}
