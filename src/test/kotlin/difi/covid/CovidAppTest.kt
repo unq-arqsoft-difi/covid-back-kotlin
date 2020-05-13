@@ -1,14 +1,36 @@
 package difi.covid
 
+import difi.covid.database.UserTable
 import difi.covid.exceptions.ExistsUserException
 import difi.covid.support.UserBuilder
+import org.jetbrains.exposed.sql.Database
+import org.jetbrains.exposed.sql.SchemaUtils
+import org.jetbrains.exposed.sql.StdOutSqlLogger
+import org.jetbrains.exposed.sql.addLogger
+import org.jetbrains.exposed.sql.transactions.transaction
+import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class CovidAppTest {
     lateinit var app: CovidApp
+
+    @BeforeAll
+    fun initAll() {
+        Database.connect("jdbc:sqlite:file:test", "org.sqlite.JDBC")
+        transaction {
+            addLogger(StdOutSqlLogger)
+            SchemaUtils.create(UserTable)
+        }
+    }
+
+    @AfterAll
+    fun cleanAll() {
+        transaction {
+            addLogger(StdOutSqlLogger)
+            SchemaUtils.drop(UserTable)
+        }
+    }
 
     @BeforeEach fun setUp() {
         app = CovidApp()

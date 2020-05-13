@@ -10,7 +10,7 @@ import io.javalin.http.Context
 class UserController(private val app: CovidApp) {
 
     fun getAll(ctx: Context) {
-        val users = app.users.map { BasicUserParser(it) }
+        val users = app.dbUsers().map { BasicUserParser(it) }
         ctx.status(200)
         ctx.json(users)
     }
