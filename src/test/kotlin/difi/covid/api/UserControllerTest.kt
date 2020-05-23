@@ -19,7 +19,7 @@ class UserControllerTest : APITestCase() {
 
     @Test
     @Order(2)
-    fun `2) POST registration`() {
+    fun `2) POST users`() {
         val userJson = """
         {
             "firstName": "Jon",
@@ -35,7 +35,7 @@ class UserControllerTest : APITestCase() {
             "password": "1234"
         }
         """
-        val (_, response, result) = Fuel.post("registry")
+        val (_, response, result) = Fuel.post("users")
             .jsonBody(userJson)
             .responseObject<RegistryCreationUserParser>()
         assertEquals(201, response.statusCode)
@@ -52,7 +52,7 @@ class UserControllerTest : APITestCase() {
             "password": "1234"
         }
         """
-        val (_, response, _) = Fuel.post("registry").jsonBody(userJson).responseObject<RegistryCreationUserParser>()
+        val (_, response, _) = Fuel.post("users").jsonBody(userJson).responseObject<RegistryCreationUserParser>()
         assertEquals(400, response.statusCode)
     }
 

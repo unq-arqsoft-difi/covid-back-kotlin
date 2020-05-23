@@ -23,8 +23,6 @@ class CovidAPI(private val port: Int) {
         api.routes {
             path("users") {
                 get(userController::getAll)
-            }
-            path("registry") {
                 post(userController::registry)
             }
             path("login") {
