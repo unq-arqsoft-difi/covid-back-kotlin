@@ -1,3 +1,5 @@
+@file:JvmName("Main")
+
 package difi.covid.api
 
 import difi.covid.database.UserTable

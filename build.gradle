@@ -53,6 +53,11 @@ dependencies {
     ktlint "com.pinterest:ktlint:0.35.0"
 }
 
+task run(type: JavaExec) {
+    main = 'difi.covid.api.Main'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
 test {
     useJUnitPlatform()
 }

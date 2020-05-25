@@ -15,8 +15,10 @@
 ```sh
 git clone https://github.com/unq-arqsoft-difi/covid-back-kotlin.git
 cd covid-back-kotlin
-./gradlew build
+./gradlew run
 ```
+
+La API quedará levantada en `http://localhost:7000/`
 
 ## Install & Run
 
@@ -27,8 +29,17 @@ git clone https://github.com/unq-arqsoft-difi/covid-back-kotlin.git
 cd covid-back-kotlin
 ```
 
+### Run APP
+
+```sh
+./gradlew run
+```
+
+La API quedará levantada en `http://localhost:7000/`
+
 ### Build & Run tests
 
 ```sh
 ./gradlew build
+./gradlew test
 ```
